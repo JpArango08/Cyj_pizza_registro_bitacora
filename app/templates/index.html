@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f7fb">
+    <title>Bitácora de cloro y pH</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-mark logo-mark">Cyj Pizza</div>
+            <div>
+                <h1>Bitácora de control</h1>
+            </div>
+        </div>
+        <div class="connection">
+            <span class="status-dot"></span>
+            <span id="connection-status">Conectando...</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <div>
+                <p class="eyebrow">REGISTRO Y SEGUIMIENTO</p>
+                <h2>Control de calidad del agua</h2>
+            </div>
+        </section>
+
+        <section class="summary-grid" aria-label="Parámetros de referencia">
+            <article class="summary-card">
+                <div class="summary-heading">
+                    <span class="summary-icon chlorine-icon">Cl</span>
+                    <span>Cloro</span>
+                </div>
+                <p class="summary-value" id="chlorine-range">—</p>
+                <p class="summary-foot" id="chlorine-unit">Rango de evaluación</p>
+            </article>
+
+            <article class="summary-card">
+                <div class="summary-heading">
+                    <span class="summary-icon ph-icon">pH</span>
+                    <span>Potencial de hidrógeno</span>
+                </div>
+                <p class="summary-value" id="ph-range">—</p>
+                <p class="summary-foot">Rango de evaluación de pH</p>
+            </article>
+
+            <article class="summary-card history-card">
+                <div class="summary-heading">
+                    <span class="summary-icon history-icon">↻</span>
+                    <span>Estado del sistema</span>
+                </div>
+                <p class="summary-value compact-value" id="system-status">
+                    Consultando
+                </p>
+                <p class="summary-foot">Conexión con la base de datos</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">NUEVA MEDICIÓN</p>
+                    <h2>Registrar valores</h2>
+                </div>
+            </div>
+
+            <form id="measurement-form">
+                <div class="form-grid">
+                    <label class="field">
+                        <span>Cloro residual libre <span class="unit">(mg/L)</span></span>
+                        <input
+                            type="number"
+                            id="chlorine-value"
+                            name="chlorine_value"
+                            min="0"
+                            step="0.001"
+                            inputmode="decimal"
+                            placeholder="Ej. 0.8"
+                        >
+                        <small id="chlorine-help">Valor medido de cloro</small>
+                    </label>
+
+                    <label class="field">
+                        <span>pH</span>
+                        <input
+                            type="number"
+                            id="ph-value"
+                            name="ph_value"
+                            min="0"
+                            step="0.001"
+                            inputmode="decimal"
+                            placeholder="Ej. 7.2"
+                        >
+                        <small id="ph-help">Valor medido de pH</small>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <p id="form-message" class="message" role="status" aria-live="polite"></p>
+                    <button id="submit-button" type="submit">
+                        Guardar medición
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel history-panel">
+            <div class="panel-header history-header">
+                <div>
+                    <p class="eyebrow">REGISTRO CONSOLIDADO</p>
+                    <h2>Historial de mediciones</h2>
+                    <p class="muted">Los registros más recientes aparecen primero.</p>
+                </div>
+                <button type="button" class="button-secondary" id="refresh-button">
+                    Actualizar
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha y hora</th>
+                            <th>Tipo</th>
+                            <th>Cloro (mg/L)</th>
+                            <th>Estado cloro</th>
+                            <th>pH</th>
+                            <th>Estado pH</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <tr>
+                            <td colspan="7" class="empty-state">
+                                Cargando historial...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <span id="page-info">Página 1</span>
+                <div class="pagination-actions">
+                    <button type="button" class="button-secondary" id="previous-button" disabled>
+                        Anterior
+                    </button>
+                    <button type="button" class="button-secondary" id="next-button" disabled>
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
