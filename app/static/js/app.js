@@ -189,13 +189,14 @@ async function loadParameters() {
     ));
 }
 
+
 function renderHistory(items) {
     elements.historyBody.replaceChildren();
 
     if (!items || items.length === 0) {
         const row = document.createElement("tr");
         const cell = createCell("Todavía no hay mediciones registradas.");
-        cell.colSpan = 7;
+        cell.colSpan = 6;
         cell.className = "empty-state";
         row.appendChild(cell);
         elements.historyBody.appendChild(row);
@@ -206,9 +207,6 @@ function renderHistory(items) {
         const row = document.createElement("tr");
 
         row.appendChild(createCell(formatDate(item.measured_at)));
-        row.appendChild(createCell(
-            item.record_type === "automatic" ? "Automática" : "Manual"
-        ));
         row.appendChild(createCell(formatNumber(item.chlorine_value)));
         row.appendChild(createCell(formatStatus(item.chlorine_status), true));
         row.appendChild(createCell(formatNumber(item.ph_value)));
@@ -218,6 +216,7 @@ function renderHistory(items) {
         elements.historyBody.appendChild(row);
     }
 }
+
 
 async function loadHistory() {
     const result = await apiRequest(
